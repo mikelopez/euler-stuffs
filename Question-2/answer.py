@@ -6,21 +6,18 @@ Project Euler question # 2
 ___author___ = "Marcos Lopez"
 
 
+from itertools import takewhile
 from question import *
 
-def fib(n):
-    """
-    Subsequent number is the sum of previous two.
-    This gets heavier as the numbers get larger
-    Using the formula Fn = F(n-2)+F(n-1)
-    """
-    if n < 2:
-        return n
-    return fib(n-2) + fib(n-1)
 
-
-sum = 0
-for n in map(fib, range(0, 4000000)):
-    sum += n
+def gen_fib():
+    f0, f1 = 0, 1
+    while True:
+        yield f0
+        f0, f1 = f1, f0+f1
+                
+limit = 4000000
+fibs = takewhile(lambda x: x <= limit, gen_fib())
+answer = sum(f for f in fibs if f % 2 == 0)
 
 print "The answer is %s" % answer
